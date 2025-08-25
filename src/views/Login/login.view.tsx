@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import type { LoginInterface } from "../../interfaces/login.interface";
 
 const LoginView = () => {
   const navigate = useNavigate();
-
   const requestJWT = async ({ uid, email }: LoginInterface) => {
     const response = await login({ uid, email });
 
@@ -46,7 +45,7 @@ const LoginView = () => {
           const responseRequestJwt = await requestJWT({ uid, email });
           if (responseRequestJwt) {
             setLoadingAuth(false);
-            navigate("/panel/");
+            navigate("/panel");
             return;
           }
 
@@ -66,12 +65,12 @@ const LoginView = () => {
     <div className="LoginView mt-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-3">
-          <div className="text-center">
+          <div className="text-center mb-4">
             <img
               src="../../../public/assets/logo-2-sesi-senai.png"
               alt="SISGED"
               className="img-fluid"
-              style={{ width: "400px" }}
+              style={{ width: "300px" }}
             />
           </div>
 
@@ -129,16 +128,6 @@ const LoginView = () => {
                 <small className="text-muted">
                   - ou -
                 </small>
-              </div>
-
-              <div className="d-grid">
-                <Link to="/signup" className="btn btn-outline-primary"> 
-                  Crie sua conta
-                </Link>
-
-                <div className="d-grid">
-                  <Link to="/recoverPassword" className="btn btn-sm btn-link text-center link-primary underline-0">Esqueci minha Senha</Link>
-                </div>
               </div>
             </div>
           </div>

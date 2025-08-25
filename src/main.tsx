@@ -7,8 +7,9 @@ import RequireAuth from './services/requireAuth.component.tsx';
 import LoginView from './views/Login/login.view.tsx';
 import PanelView from './views/Panel/Panel.view.tsx';
 import { login } from './services/login.service.tsx';
-import RegisterView from "./views/Register/register.view.tsx";
-import RegistrationView from "./views/Registration/registration.view.tsx";
+import ConsultationsView from "./views/Consultations/consultations.view.tsx";
+import Admin from "./views/Admin/Admin.view.tsx";
+import { ConfirmProvider } from "@moreirapontocom/npmhelpers";
 
 initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -64,16 +65,16 @@ const routes: any = createBrowserRouter([
     element: <LoginView />,
   },
   {
-    path: "/register",
-    element: <RegisterView />,
-  },
-  {
     path: "/",
     element: <PanelView />,
     children: [
       {
+      path: "panel/admin",
+      element: <RequireAuth component={<Admin />} />,
+      },
+      {
       path: "panel",
-      element: <RegistrationView />
+      element: <RequireAuth component={<ConsultationsView />} />,
       }
     ],
   },
@@ -81,6 +82,8 @@ const routes: any = createBrowserRouter([
 
 createRoot(document.getElementById(('root')!) as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <ConfirmProvider>
+      <RouterProvider router={routes} />
+    </ConfirmProvider>
   </React.StrictMode>
 );

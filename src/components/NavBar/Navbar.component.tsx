@@ -51,17 +51,17 @@ const Navbar = () => {
               </CustomLink>
             </li>
             <li className="nav-item me-3">
-              <CustomLink to="/panel/movimentation">
+              <CustomLink to="/panel">
                 <i className="fas fa-walking me-2"></i> Movimentação
               </CustomLink>
             </li>
             <li className="nav-item me-3">
-              <CustomLink to="/panel/consultations">
+              <CustomLink to="/panel">
                 <i className="fas fa-search me-2"></i> Consultas
               </CustomLink>
             </li>
             <li className="nav-item me-3">
-              <CustomLink to="/panel/reports">
+              <CustomLink to="/panel">
                 <i className="fas fa-book me-2"></i> Relatórios
               </CustomLink>
             </li>
