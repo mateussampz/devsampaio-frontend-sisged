@@ -95,10 +95,10 @@ const ConsultationsView = () => {
           <span>Instrutor:</span>
           <select name="instructor" id="instructor" disabled={loading} className="form-select" onChange={formik.handleChange} value={formik.values.instructor}>
             <option value="">Selecione um instrutor</option>
-            {instructors.map((instructor: any, index: any) => (
-              <option key={index} value={instructor.name}>
-                {instructor.name}
-              </option>
+            {instructors.filter((instructor: any) => (
+              instructor.typeUser === "professor"
+            )).map((instructor: any) => (
+              <option key={instructor.id} value={instructor.name}>{instructor.name}</option>
             ))}
           </select>
         </div>
@@ -115,6 +115,7 @@ const ConsultationsView = () => {
                     </th>
                     <th className="bg-transparent">Nome</th>
                     <th className="bg-transparent">Data</th>
+                    <th className="bg-transparent">Hora</th>
                     <th className="bg-transparent">Turma</th>
                     <th className="bg-transparent">Turno</th>
                 </tr>
@@ -126,7 +127,8 @@ const ConsultationsView = () => {
                             <small>{index + 1}</small>
                         </td>
                         <td className="bg-transparent">{doc.instructor}</td>
-                        <td className="bg-transparent">{convertFirebaseTimestampToString(doc.date, "DD/MM/YYYY HH:MM")}</td>
+                        <td className="bg-transparent">{convertFirebaseTimestampToString(doc.date, "DD/MM/YYYY")}</td>
+                        <td className="bg-transparent">{convertFirebaseTimestampToString(doc.date, "HH:mm")}</td>
                         <td className="bg-transparent">{doc.instructorClass}</td>
                         <td className="bg-transparent">{doc.shift}</td>
                     </tr>

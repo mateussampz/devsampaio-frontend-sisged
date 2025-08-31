@@ -24,8 +24,3 @@ export const adminDeleteUser = async (user: any) =>
     .then((res) => res)
     .catch((err) => err);
 
-export const adminCreateClasses = async (request: any) =>
-  await axios
-    .post("/admin/classes", request)
-    .then((res) => res)
-    .catch((err) => err);

@@ -1,29 +1,47 @@
 import { useFormik } from "formik"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import * as yup from "yup"
-import { adminCreateClasses } from "../../services/admin.service"
+import { adminCreateClass, adminEditClass } from "../../services/adminClasses.service"
+import { getAllInstructors } from "../../services/consultations.service"
+import { convertFirebaseTimestampToString } from "@moreirapontocom/npmhelpers"
 
 interface ClassesInitialValues {
   instructor: string
-  dateTime: string
+  date: string
   instructorClass: string
   shift: string
 };
 const AdminFormClasses = (props: any) => {
-  const { onSetModal, instructors } = props;
+  useEffect(() => {
+    getInstructors();
+  }, []);
+  const {
+    selectedClasses,
+    onSetModal,
+    onClassesUpdated,
+  } = props;
   const [loading, setLoading] = useState(false);
 
+  const [ instructors, setInstructors ] = useState([] as any);
 
+  const getInstructors = async () => {
+    const response: any = await getAllInstructors();
+    if (response instanceof Error && response.message !== "OK") {
+      console.error("Error fetching instructors", response);
+      return [];
+    }
+    setInstructors(response.data.instructors || []);
+  };
   const initialValues: ClassesInitialValues = {
-    instructor: "",
-    dateTime: "",
-    instructorClass: "",
-    shift: "",
+    instructor: selectedClasses.instructor || "",
+    date: convertFirebaseTimestampToString(selectedClasses.date) || "",
+    instructorClass: selectedClasses.instructorClass || "",
+    shift: selectedClasses.shift || "",
   };
 
   const validationSchema: any = yup.object().shape({
     instructor: yup.string().required("Professor é obrigatório"),
-    dateTime: yup.string().required("Data é obrigatória"),
+    date: yup.string().required("Data é obrigatória"),
     instructorClass: yup.string().required("Turma é obrigatória"),
     shift: yup.string().required("Turno é obrigatório"),
   });
@@ -35,15 +53,52 @@ const AdminFormClasses = (props: any) => {
     onSubmit: async (values: any) => {
       setLoading(true);
 
-      const responseCreate: any = await adminCreateClasses(values);
-      if (responseCreate instanceof Error && responseCreate.message !== "OK") {
-        console.error("Error creating class", responseCreate);
+      if (!selectedClasses.id || selectedClasses.id === "") {
+        const newValues: any = {
+          instructor: values.instructor,
+          date: values.date,
+          instructorClass: values.instructorClass,
+          shift: values.shift,
+        };
+
+        const responseCreate: any = await adminCreateClass(newValues);
+        if (responseCreate instanceof Error && responseCreate.message !== "OK") {
+          console.error("Error creating class", responseCreate);
           setLoading(false);
           return;
         }
 
-      setLoading(false);
+        onClassesUpdated({...newValues, id: responseCreate.data.newClassId});
+        onSetModal(false);
+
+        formikClasses.resetForm();
+        setLoading(false);
+        return;
+      }
+
+      // UPDATE CLASS
+
+      const newValues: any = {
+        instructor: values.instructor,
+        date: values.date,
+        instructorClass: values.instructorClass,
+        shift: values.shift,
+      };
+
+      const responseEdit: any = await adminEditClass(selectedClasses.id, newValues).then((res: any) => res).catch((err: any) => err);
+      if (responseEdit instanceof Error && responseEdit.message !== "OK") {
+        console.error("Error editing class", responseEdit);
+        setLoading(false);
+        return;
+      }
+
+      onClassesUpdated({...newValues, id: selectedClasses.id});
       onSetModal(false);
+
+      formikClasses.resetForm();
+      setLoading(false);
+
+      return;
     }
   })
 
@@ -58,12 +113,14 @@ const AdminFormClasses = (props: any) => {
         <select 
           name="instructor" 
           autoComplete="off"
-          className="form-control"
+          className="form-select"
           value={formikClasses.values.instructor} 
           onChange={formikClasses.handleChange}
           disabled={loading} >
           <option value="">Selecione o professor</option>
-          {instructors.map((instructor: any) => (
+          {instructors.filter((instructor: any) => (
+            instructor.typeUser === "professor"
+          )).map((instructor: any) => (
             <option key={instructor.id} value={instructor.name}>{instructor.name}</option>
           ))}
         </select>
@@ -73,11 +130,11 @@ const AdminFormClasses = (props: any) => {
         <div className="col">
           <div className="form-group">
             <label>Data e Hora</label>
-            <input type="datetime-local"
-              name="dateTime"
+            <input type="dateTime-local"
+              name="date"
               autoComplete="off"
               className="form-control"
-              value={formikClasses.values.dateTime}
+              value={formikClasses.values.date}
               onChange={formikClasses.handleChange}
               disabled={loading} />
           </div>
@@ -106,6 +163,7 @@ const AdminFormClasses = (props: any) => {
             <select 
               name="instructorClass"
               className="form-select"
+              value={formikClasses.values.instructorClass}
               onChange={formikClasses.handleChange} 
               disabled={loading} >
               <option value="">Selecione a turma</option>

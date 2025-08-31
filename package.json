@@ -12,6 +12,7 @@
   "dependencies": {
     "@moreirapontocom/npmhelpers": "^1.2.133",
     "axios": "^1.11.0",
+    "dayjs": "^1.11.18",
     "firebase": "^12.1.0",
     "formik": "^2.4.6",
     "react": "^19.1.0",

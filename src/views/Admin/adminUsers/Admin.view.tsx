@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { adminDeleteUser, getAdminUsers } from "../../services/admin.service";
+import { adminDeleteUser, getAdminUsers } from "../../../services/adminUser.service";
 import { Modal } from "react-bootstrap";
-import AdminFormUser from "../../components/AdminForm/AdminFormUser.component";
-import AdminFormClasses from "../../components/AdminForm/AdminFormClasses.component";
+import AdminFormUser from "../../../components/AdminForm/AdminFormUser.component";
+
 import { ConfirmContext } from "@moreirapontocom/npmhelpers";
 
-const Admin = () => {
+
+const AdminUsers = () => {
     useEffect(() => {
         getUsers();
     }, []);
@@ -16,7 +17,6 @@ const Admin = () => {
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [users, setUsers] = useState([] as any);
     const [show, setShowModal] = useState(false);
-    const [typeModal, setTypeModal] = useState("user");
 
     const deleteUser = async (user: any) => {
 
@@ -64,21 +64,10 @@ const Admin = () => {
                 <button
                     className="btn btn-primary m-2"
                     onClick={() => {
-                        setTypeModal("user")
                         setSelectedUser({ id: "", displayName: "", email: "", connectedPhone: "", zid: "", ztoken: "" });
                         setShowModal(true);
                     }}>
                         Criar Usuário
-                </button>
-
-                <button
-                    className="btn btn-primary m-2"
-                    onClick={() => {
-                        setTypeModal("classes")
-                        setSelectedUser({ id: "", displayName: "", email: "", connectedPhone: "", zid: "", ztoken: "" });
-                        setShowModal(true);
-                    }}>
-                        Cadastrar Aula
                 </button>
 
                 <h3>Usuários</h3>
@@ -101,7 +90,6 @@ const Admin = () => {
                                 onClick={() => {
                                     setSelectedUser(user);
                                     setShowModal(true);
-                                    setTypeModal("user");
                                 }}
                                 className="cursor-pointer"
                             >
@@ -145,32 +133,24 @@ const Admin = () => {
                 <Modal.Title>Formulario de {selectedUser.id === "" ? "Criação" : "Edição"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <AdminFormUser
+                    selectedUser={selectedUser}
+                    onSetModal={(e: boolean) => setShowModal(e)}
+                    onUserUpdated={(user: any) => {
+                        const currentUser: any = users.find((user: any) => user.id === selectedUser.id);
 
-                {typeModal === "user" ? (
-                    <AdminFormUser
-                        selectedUser={selectedUser}
-                        onSetModal={(e: boolean) => setShowModal(e)}
-                        onUserUpdated={(user: any) => {
-                            const currentUser: any = users.find((user: any) => user.id === selectedUser.id);
+                    if (currentUser) {
+                        Object.assign(currentUser, user);
+                        setUsers([...users]);
+                    } else {
+                        setUsers([...users, user]);
+                    }
 
-                        if (currentUser) {
-                            Object.assign(currentUser, user);
-                            setUsers([...users]);
-                        } else {
-                            setUsers([...users, user]);
-                        }
-
-                        setUsers((prevUsers: any) => [...prevUsers].sort((a: any, b: any) => a.displayName.localeCompare(b.displayName)));
-                    }} />) : (
-                    <AdminFormClasses
-                        onSetModal={(e: boolean) => setShowModal(e)}
-                        instructors={users}
-                    />
-                )}
-
+                    setUsers((prevUsers: any) => [...prevUsers].sort((a: any, b: any) => a.displayName.localeCompare(b.displayName)));
+                }} />
             </Modal.Body>
         </Modal>
     </>
 };
 
-export default Admin;
+export default AdminUsers;

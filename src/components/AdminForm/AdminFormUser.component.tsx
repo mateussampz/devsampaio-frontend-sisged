@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFormik } from "formik";
-import { adminEditUser, adminCreateUser } from "../../services/admin.service";
+import { adminEditUser, adminCreateUser } from "../../services/adminUser.service";
 import * as yup from "yup";
 
 interface UserInitialValues {
@@ -33,7 +33,7 @@ const AdminFormUser = (props: any) => {
     displayName: yup.string().required("Nome é obrigatório"),
     name: yup.string().required("Nome é obrigatório"),
     email: yup.string().email("Email inválido").required("Email é obrigatório"),
-    typeUser: yup.string().required("Tipo é obrigatório"),
+    typeUser: yup.string().optional(),
     password: yup.string().when([], () => {
       return selectedUser.id === "" ?
         yup.string()

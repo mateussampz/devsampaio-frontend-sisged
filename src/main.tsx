@@ -8,8 +8,9 @@ import LoginView from './views/Login/login.view.tsx';
 import PanelView from './views/Panel/Panel.view.tsx';
 import { login } from './services/login.service.tsx';
 import ConsultationsView from "./views/Consultations/consultations.view.tsx";
-import Admin from "./views/Admin/Admin.view.tsx";
 import { ConfirmProvider } from "@moreirapontocom/npmhelpers";
+import AdminUsers from "./views/Admin/adminUsers/Admin.view.tsx";
+import AdminClasses from "./views/Admin/adminClasses/Admin.view.tsx";
 
 initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -69,8 +70,12 @@ const routes: any = createBrowserRouter([
     element: <PanelView />,
     children: [
       {
-      path: "panel/admin",
-      element: <RequireAuth component={<Admin />} />,
+      path: "panel/admin/users",
+      element: <RequireAuth component={<AdminUsers />} />,
+      },
+      {
+      path: "panel/admin/classes",
+      element: <RequireAuth component={<AdminClasses />} />,
       },
       {
       path: "panel",
