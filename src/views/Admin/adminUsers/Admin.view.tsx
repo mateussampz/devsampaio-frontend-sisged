@@ -75,13 +75,13 @@ const AdminUsers = () => {
                     <thead>
                         <tr>
                             <th className="bg-transparent text-muted text-center">
-                                <small>#</small>
+                                <small className="text-white">#</small>
                             </th>
-                            <th className="bg-transparent">User</th>
-                            <th className="bg-transparent">Nome</th>
-                            <th className="bg-transparent">Email</th>
-                            <th className="bg-transparent">Tipo</th>
-                            <th className="bg-transparent"></th>
+                            <th className="bg-transparent text-white">User</th>
+                            <th className="bg-transparent text-white">Nome</th>
+                            <th className="bg-transparent text-white">Email</th>
+                            <th className="bg-transparent text-white">Tipo</th>
+                            <th className="bg-transparent text-white"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,14 +93,14 @@ const AdminUsers = () => {
                                 }}
                                 className="cursor-pointer"
                             >
-                                <td className="bg-transparent text-center text-muted">
+                                <td className="bg-transparent text-center text-white">
                                     <small>{index + 1}</small>
                                 </td>
-                                <td className="bg-transparent">{user.displayName}</td>
-                                <td className="bg-transparent">{user.name}</td>
-                                <td className="bg-transparent">{user.email}</td>
-                                <td className="bg-transparent">{user.typeUser}</td>
-                                <td className="bg-transparent text-center">
+                                <td className="bg-transparent text-white">{user.displayName}</td>
+                                <td className="bg-transparent text-white">{user.name}</td>
+                                <td className="bg-transparent text-white">{user.email}</td>
+                                <td className="bg-transparent text-white">{user.typeUser}</td>
+                                <td className="bg-transparent text-white text-center">
                                     <button
                                         type="button"
                                         onClick={(e) => {
@@ -115,7 +115,7 @@ const AdminUsers = () => {
                                                     await deleteUser(user);
                                                 },
                                             })}}
-                                        className="btn btn-outline-primary btn-sm">
+                                        className="btn btn-outline-light btn-sm">
                                             <i className="fas fa-trash"></i>
                                     </button>
                                     

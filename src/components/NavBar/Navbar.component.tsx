@@ -10,7 +10,7 @@ const Navbar = () => {
     const match: any = useMatch({ path: resolved.pathname, end: true });
 
     return (
-      <Link data-testid={`navbar-${to.replace("/","")}`} className={`nav-link ${match ? "active" : ""}`} to={to}>
+      <Link data-testid={`navbar-${to.replace("/","")}`} className={`text-white nav-link ${match ? "active" : ""}`} to={to}>
         {children}
       </Link>
     );
@@ -66,7 +66,7 @@ const Navbar = () => {
               </CustomLink>
             </li>
             <li className="nav-item">
-              <button type="button" className="nav-link" onClick={() => doLogout()}>
+              <button type="button" className="nav-link text-white" onClick={() => doLogout()}>
                 <i className="fas fa-sign-out-alt me-2"></i> Sair
               </button>
             </li>

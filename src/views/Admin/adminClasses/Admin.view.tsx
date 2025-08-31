@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef} from "react";
 import { Modal } from "react-bootstrap";
 import { ConfirmContext } from "@moreirapontocom/npmhelpers";
 import { adminDeleteClass, getAdminClasses } from "../../../services/adminClasses.service";
@@ -7,6 +7,7 @@ import AdminFormClasses from "../../../components/AdminForm/AdminFormClasses.com
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -84,19 +85,20 @@ const AdminClasses = () => {
                         Cadastrar Aula
                 </button>
 
+
                 <h3>Aulas</h3>
                 <table className="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th className="bg-transparent text-muted text-center">
-                                <small>#</small>
+                                <small className="text-white">#</small>
                             </th>
-                            <th className="bg-transparent">Instrutor</th>
-                            <th className="bg-transparent">Data</th>
-                            <th className="bg-transparent">Hora</th>
-                            <th className="bg-transparent">Turno</th>
-                            <th className="bg-transparent">Turma</th>
-                            <th className="bg-transparent"></th>
+                            <th className="bg-transparent text-white">Instrutor</th>
+                            <th className="bg-transparent text-white">Data</th>
+                            <th className="bg-transparent text-white">Hora</th>
+                            <th className="bg-transparent text-white">Turno</th>
+                            <th className="bg-transparent text-white">Turma</th>
+                            <th className="bg-transparent text-white"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,15 +110,15 @@ const AdminClasses = () => {
                                 }}
                                 className="cursor-pointer"
                             >
-                                <td className="bg-transparent text-center text-muted">
-                                    <small>{index + 1}</small>
+                                <td className="bg-transparent  text-center text-muted">
+                                    <small className="text-white">{index + 1}</small>
                                 </td>
-                                <td className="bg-transparent">{classItem.instructor}</td>
-                                <td className="bg-transparent">{convertFirebaseToDate(classItem.date).format("DD/MM/YYYY")}</td>
-                                <td className="bg-transparent">{convertFirebaseToDate(classItem.date).format("HH:mm")}</td>
-                                <td className="bg-transparent">{classItem.shift}</td>
-                                <td className="bg-transparent">{classItem.instructorClass}</td>
-                                <td className="bg-transparent text-center">
+                                <td className="bg-transparent text-white">{classItem.instructor}</td>
+                                <td className="bg-transparent text-white">{convertFirebaseToDate(classItem.date).format("DD/MM/YYYY")}</td>
+                                <td className="bg-transparent text-white">{convertFirebaseToDate(classItem.date).format("HH:mm")}</td>
+                                <td className="bg-transparent text-white">{classItem.shift}</td>
+                                <td className="bg-transparent text-white">{classItem.instructorClass}</td>
+                                <td className="bg-transparent text-white text-center">
                                     <button
                                         type="button"
                                         onClick={(e) => {
@@ -131,7 +133,7 @@ const AdminClasses = () => {
                                                     await deleteClasses(classItem);
                                                 },
                                             })}}
-                                        className="btn btn-outline-primary btn-sm">
+                                        className="btn btn-outline-light btn-sm">
                                             <i className="fas fa-trash"></i>
                                     </button>
                                     

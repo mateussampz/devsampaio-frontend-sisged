@@ -22,7 +22,6 @@ const ConsultationsView = () => {
   const [instructors, setInstructors] = useState([] as any)
   const [responseSearch, setResponseSearch] = useState([] as any)
   const [loading, setLoading] = useState(false);
-  console.log("teste",responseSearch);
 
   const initialValues: ConsultationValues = {
     startDate: "",
@@ -111,26 +110,26 @@ const ConsultationsView = () => {
             <thead>
                 <tr>
                     <th className="bg-transparent text-muted text-center">
-                        <small>#</small>
+                        <small className="text-white">#</small>
                     </th>
-                    <th className="bg-transparent">Nome</th>
-                    <th className="bg-transparent">Data</th>
-                    <th className="bg-transparent">Hora</th>
-                    <th className="bg-transparent">Turma</th>
-                    <th className="bg-transparent">Turno</th>
+                    <th className="bg-transparent text-white">Nome</th>
+                    <th className="bg-transparent text-white">Data</th>
+                    <th className="bg-transparent text-white">Hora</th>
+                    <th className="bg-transparent text-white">Turma</th>
+                    <th className="bg-transparent text-white">Turno</th>
                 </tr>
             </thead>
             <tbody>
                 {responseSearch.map((doc:any, index:any)=>(
                     <tr key={`users-${index}`}>
                         <td className="bg-transparent text-center text-muted">
-                            <small>{index + 1}</small>
+                            <small className="text-white">{index + 1}</small>
                         </td>
-                        <td className="bg-transparent">{doc.instructor}</td>
-                        <td className="bg-transparent">{convertFirebaseTimestampToString(doc.date, "DD/MM/YYYY")}</td>
-                        <td className="bg-transparent">{convertFirebaseTimestampToString(doc.date, "HH:mm")}</td>
-                        <td className="bg-transparent">{doc.instructorClass}</td>
-                        <td className="bg-transparent">{doc.shift}</td>
+                        <td className="bg-transparent text-white">{doc.instructor}</td>
+                        <td className="bg-transparent text-white">{convertFirebaseTimestampToString(doc.date, "DD/MM/YYYY")}</td>
+                        <td className="bg-transparent text-white">{convertFirebaseTimestampToString(doc.date, "HH:mm")}</td>
+                        <td className="bg-transparent text-white">{doc.instructorClass}</td>
+                        <td className="bg-transparent text-white">{doc.shift}</td>
                     </tr>
                 ))}
             </tbody>
